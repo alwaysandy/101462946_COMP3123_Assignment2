@@ -26,7 +26,7 @@ const mongoIdParamValidation = () => param('employeeId')
     .isMongoId().withMessage("Parameter must be valid MongoDB ID");
 
 
-employeeRoutes.get('/employees', async (req, res) => {
+employeeRoutes.get('/', async (req, res) => {
     try {
         const employees = await employeeModel.find({});
         return res.send(employees);
@@ -37,7 +37,7 @@ employeeRoutes.get('/employees', async (req, res) => {
     }
 });
 
-employeeRoutes.post('/employees', [
+employeeRoutes.post('/', [
     firstNameValidation(),
     lastNameValidation(),
     emailValidation(),
@@ -68,7 +68,7 @@ employeeRoutes.post('/employees', [
     }
 });
 
-employeeRoutes.get('/employees/:employeeId', mongoIdParamValidation(), async (req, res) => {
+employeeRoutes.get('/:employeeId', mongoIdParamValidation(), async (req, res) => {
     const result = validationResult(req);
     if (!result.isEmpty()) {
         return res.status(400).send({
@@ -86,7 +86,7 @@ employeeRoutes.get('/employees/:employeeId', mongoIdParamValidation(), async (re
     }
 });
 
-employeeRoutes.put('/employees/:employeeId', [
+employeeRoutes.put('/:employeeId', [
     mongoIdParamValidation(),
     firstNameValidation().optional(),
     lastNameValidation().optional(),
@@ -116,7 +116,7 @@ async (req, res) => {
     }
 });
 
-employeeRoutes.delete('/employees', 
+employeeRoutes.delete('/',
     query('eid')
         .isMongoId().withMessage("Parameter must be valid MongoDB ID"), 
     async (req, res) => {

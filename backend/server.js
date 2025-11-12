@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const employeeRouter = require('./routes/EmployeeRoutes');
 const userRouter = require('./routes/UserRoutes');
 const userModel = require('./models/UsersModel');
@@ -12,8 +13,13 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/api/v1/user', userRouter);
-app.use('/api/v1/emp', employeeRouter);
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true
+}));
+app.use('/api/v1/users', userRouter);
+app.use('/api/v1/employees', employeeRouter);
+
 
 // Connect to the database
 mongoose.connect(DB_URL, {
