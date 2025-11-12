@@ -47,10 +47,9 @@ userRoutes.post('/signup', [
 });
 
 userRoutes.post('/login', [
-    body('email')
+    body('username')
         .trim()
-        .notEmpty()
-        .isEmail(),
+        .notEmpty(),
     body('password')
         .trim()
         .notEmpty()
@@ -59,17 +58,17 @@ userRoutes.post('/login', [
     if (!result.isEmpty()) {
         return res.status(400).send({
             status: false,
-            message: "Invalid email or password"
+            message: "Invalid username or password"
         });
     }
 
     try {
-        const user = await userModel.findOne({email: req.body.email});
+        const user = await userModel.findOne({username: req.body.username});
         const isMatch = await user.comparePassword(req.body.password);
         if (!isMatch) {
             return res.status(400).send({
                 status: false,
-                message: "Invalid email or password"
+                message: "Invalid username or password"
             });
         }
 
