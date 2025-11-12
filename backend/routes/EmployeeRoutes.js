@@ -59,7 +59,7 @@ employeeRoutes.post('/', [
         const newEmployee = await employee.save();
         return res.status(201).send({
             message: "Employee created successfully",
-            employee_id: newEmployee._id
+            employee_id: newEmployee._id,
         });
     } catch (err) {
         return res.status(500).send({
@@ -106,7 +106,7 @@ async (req, res) => {
 
     try {
         await employeeModel.findByIdAndUpdate(req.params.employeeId, req.body)
-        return res.send({
+        return res.status(200).send({
             message: "Employee details updated successful."
         });
     } catch (err) {
@@ -129,7 +129,7 @@ employeeRoutes.delete('/',
 
     try {
         await employeeModel.findByIdAndDelete(req.query.eid)
-        return res.status(204).send({
+        return res.status(200).send({
             message: "Employee deleted successfully."
         });
     } catch (err) {
