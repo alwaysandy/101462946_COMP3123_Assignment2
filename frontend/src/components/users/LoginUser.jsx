@@ -3,11 +3,10 @@ import UserAPI from "../../api/users/UserAPI";
 
 const INITIAL_USER = {
     username: '',
-    email: '',
     password: '',
 }
 
-export default function SignupUser() {
+export default function LoginUser() {
     const [ user, setUser ] = useState(INITIAL_USER);
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -19,7 +18,7 @@ export default function SignupUser() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        UserAPI.signupUser(user)
+        UserAPI.loginUser(user)
             .then(res => {
                 setUser(INITIAL_USER);
             })
@@ -30,21 +29,17 @@ export default function SignupUser() {
 
     return (
         <div>
-            <h2>Signup</h2>
+            <h2>Login</h2>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Username: </label>
                     <input type="text" name="username" value={user.username} onChange={handleInputChange}/>
                 </div>
                 <div>
-                    <label>Email: </label>
-                    <input type="text" name="email" value={user.email} onChange={handleInputChange}/>
-                </div>
-                <div>
                     <label>Password: </label>
                     <input type="password" name="password" value={user.password} onChange={handleInputChange}/>
                 </div>
-                <button type="submit">Signup</button>
+                <button type="submit">Login</button>
             </form>
         </div>
     );

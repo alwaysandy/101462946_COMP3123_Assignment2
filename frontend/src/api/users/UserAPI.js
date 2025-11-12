@@ -14,7 +14,7 @@ const UserAPI = {
     loginUser: async (userData) => {
         try {
             const response = await axiosInstance.post('/users/login', userData);
-            if (response.data.status) return response.data.data;
+            if (response.status === 200) return response.data.data;
             else throw new Error(response.data.message);
         } catch (error) {
             throw new Error('Error logging in user: ' + error.message);
