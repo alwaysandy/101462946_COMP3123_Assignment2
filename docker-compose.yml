@@ -1,0 +1,44 @@
+services:
+  app:
+    build: backend/.
+    container_name: 101462946_COMP3123_Assignment1
+    ports:
+      - "3001:3001"
+    environment:
+      - DB_CONNECTION_STRING=mongodb://mongo:27017/comp3123_assignment1
+    depends_on:
+      - mongo
+    volumes:
+      - .:/usr/src/app
+    networks:
+      - backend
+  mongo:
+    image: mongo:7
+    container_name: mongo_db
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - backend
+  mongo-express:
+    image: mongo-express:1
+    container_name: mongo_express
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongo
+      - ME_CONFIG_MONGODB_PORT=27017
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=  
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=
+    depends_on:
+      - mongo
+    networks:
+      - backend
+volumes:
+  mongo_data:
+
+networks:
+  backend:
