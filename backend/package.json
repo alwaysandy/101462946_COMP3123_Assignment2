@@ -1,0 +1,16 @@
+{
+  "name": "comp3123-assignment2-101462946",
+  "version": "1.0.0",
+  "description": "COMP3123 Assignment 2",
+  "main": "server.js",
+  "scripts": {
+    "test": "\"echo \\\"Error: no test specified\\\"\""
+  },
+  "author": "Andrew Sas",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "express": "^5.1.0",
+    "express-validator": "^7.2.1",
+    "mongoose": "^8.19.1"
+  }
+}
