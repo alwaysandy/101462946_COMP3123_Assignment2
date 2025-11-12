@@ -39,7 +39,7 @@ const EmployeeAPI = {
     },
     deleteEmployee: async(employeeId) => {
         try {
-            const response = await axiosInstance.delete(`/employees/${employeeId}`);
+            const response = await axiosInstance.delete(`/employees/?eid=${employeeId}`);
             if (response.status === 200) return response.data;
             else throw new Error(response.data.message);
         } catch (error) {

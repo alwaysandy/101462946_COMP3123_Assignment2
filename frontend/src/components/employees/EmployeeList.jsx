@@ -26,8 +26,13 @@ export default function EmployeeList() {
         navigate(`/update-employee/${employeeId}`);
     }
 
-    const deleteEmployee = (employeeId) => {
-        alert("Add delete employee logic");
+    const deleteEmployee = async (employeeId) => {
+        try {
+            await EmployeeAPI.deleteEmployee(employeeId);
+            fetchEmployees();
+        } catch (error) {
+            console.error('Failed to delete employee', error);
+        }
     }
 
     return (
