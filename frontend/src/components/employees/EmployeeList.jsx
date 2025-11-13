@@ -43,13 +43,9 @@ export default function EmployeeList() {
             <Table striped bordered hover>
                 <thead>
                 <tr>
-                    <th>First name</th>
-                    <th>Last Name</th>
-                    <th>Email</th>
-                    <th>Position</th>
-                    <th>Salary</th>
-                    <th>Join Date</th>
-                    <th>Department</th>
+                    <th>Employee First Name</th>
+                    <th>Employee Last Name</th>
+                    <th>Employee Email</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -59,10 +55,6 @@ export default function EmployeeList() {
                         <td>{employee.first_name}</td>
                         <td>{employee.last_name}</td>
                         <td>{employee.email}</td>
-                        <td>{employee.position}</td>
-                        <td>{employee.salary}</td>
-                        <td>{employee.date_of_joining}</td>
-                        <td>{employee.department}</td>
                         <td>
                             <Button variant="info" onClick={ e => viewEmployee(employee._id)}>View</Button>
                             <Button variant="warning" onClick={ e => updateEmployee(employee._id)}>Update</Button>

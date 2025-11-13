@@ -1,5 +1,4 @@
 import axiosInstance from "../AxiosInstance";
-import EmployeeAPI from "../employees/EmployeeAPI";
 
 const UserAPI = {
     signupUser: async (userData) => {
