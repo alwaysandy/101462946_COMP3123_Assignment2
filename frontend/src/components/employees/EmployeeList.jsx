@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import EmployeeAPI from '../../api/employees/EmployeeAPI';
 import { useNavigate } from 'react-router-dom';
+import Table from 'react-bootstrap/Table';
+import Button from 'react-bootstrap/Button';
 
 export default function EmployeeList() {
     const navigate = useNavigate();
@@ -38,7 +40,7 @@ export default function EmployeeList() {
     return (
         <div>
             <h3>Employee List</h3>
-            <table border="1" cellPadding="5">
+            <Table striped bordered hover>
                 <thead>
                 <tr>
                     <th>First name</th>
@@ -48,6 +50,7 @@ export default function EmployeeList() {
                     <th>Salary</th>
                     <th>Join Date</th>
                     <th>Department</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -61,14 +64,14 @@ export default function EmployeeList() {
                         <td>{employee.date_of_joining}</td>
                         <td>{employee.department}</td>
                         <td>
-                            <button onClick={ e => viewEmployee(employee._id)}>View</button>
-                            <button onClick={ e => updateEmployee(employee._id)}>Update</button>
-                            <button onClick={ e => deleteEmployee(employee._id)}>Delete</button>
+                            <Button variant="info" onClick={ e => viewEmployee(employee._id)}>View</Button>
+                            <Button variant="warning" onClick={ e => updateEmployee(employee._id)}>Update</Button>
+                            <Button variant="danger" onClick={ e => deleteEmployee(employee._id)}>Delete</Button>
                         </td>
                     </tr>
                 ))}
                 </tbody>
-            </table>
+            </Table>
         </div>
     )
 }
