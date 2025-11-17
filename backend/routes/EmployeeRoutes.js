@@ -27,8 +27,18 @@ const mongoIdParamValidation = () => param('employeeId')
 
 
 employeeRoutes.get('/', async (req, res) => {
+    let filter = {};
+    if (req.query.q) {
+        const regex = new RegExp(req.query.q, 'i');
+        filter = {
+            $or: [
+                { department: { $regex: regex } },
+                { position: { $regex: regex }},
+            ]
+        }
+    }
     try {
-        const employees = await employeeModel.find({});
+        const employees = await employeeModel.find(filter);
         return res.send(employees);
     } catch (err) {
         return res.status(400).send({
