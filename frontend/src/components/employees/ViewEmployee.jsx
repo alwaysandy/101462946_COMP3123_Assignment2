@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from "react";
 import {useNavigate, useParams} from 'react-router-dom';
 import EmployeeAPI from '../../api/employees/EmployeeAPI';
-import {Card, Col, Container, Row} from "react-bootstrap";
+import {Alert, Card, Col, Container, Row} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 
 export default function ViewEmployee() {
     const navigate = useNavigate();
     const { employeeId } = useParams();
     const [ employee, setEmployee ] = useState(null);
+    const [ error, setError ] = useState("");
     const getEmployeeDetails = async (employeeId) => {
         try {
             const employeeDetails = await EmployeeAPI.fetchEmployeeById(employeeId);
             setEmployee(employeeDetails);
         } catch (error) {
             console.error("Failed to fetch employee details:", error);
+            setError("Failed to fetch employee details.");
         }
     }
 
@@ -28,7 +30,6 @@ export default function ViewEmployee() {
     return (
         <div>
         {employee ? (
-
         <Container className="mt-4">
             <Row className="justify-content-center">
                 <Col md={6}>
@@ -50,8 +51,27 @@ export default function ViewEmployee() {
                     </Card>
                 </Col>
             </Row>
-        </Container> ) : (
-            <p>Loading employee details...</p>
+        </Container>
+        ) : (
+            <Container className="mt-4">
+                <Row className="justify-content-center">
+                    <Col md={6}>
+                        <Card className="shadow-sm">
+                            <Card.Header className="text-center fw-bold fs-4">
+                                Employee Details
+                            </Card.Header>
+                            <Card.Body className="p-4">
+                                {error && (
+                                    <Alert variant="danger" onClose={() => setError("")} dismissible>
+                                        {error}
+                                    </Alert>
+                                )}
+                                <p>Employee ID: {employeeId}</p>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                </Row>
+            </Container>
         )}
         </div>
     );
