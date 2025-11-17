@@ -5,11 +5,14 @@ import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import {Col, Stack} from "react-bootstrap";
+import {Col, Form, InputGroup, Stack} from "react-bootstrap";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
 
 export default function EmployeeList() {
     const navigate = useNavigate();
     const [employees, setEmployees] = useState([]);
+    const [search, setSearch] = useState('');
     const fetchEmployees = async () => {
         try {
             const employeeList = await EmployeeAPI.fetchEmployees();
@@ -19,9 +22,20 @@ export default function EmployeeList() {
         }
     }
 
-    useEffect(() => {
-        fetchEmployees();
-    }, [])
+    const handleInputChange = e => {
+        const search = e.currentTarget.value;
+        setSearch(search);
+    }
+
+    const handleSearch = async (e) => {
+        e.preventDefault();
+        try {
+            const employeeList = await EmployeeAPI.fetchFilteredEmployees(search);
+            setEmployees(employeeList);
+        } catch (error) {
+            console.error('Failed to fetch employees', error);
+        }
+    };
 
     const addEmployee = () => {
         navigate('/add-employee');
@@ -44,6 +58,10 @@ export default function EmployeeList() {
         }
     }
 
+    useEffect(() => {
+        fetchEmployees();
+    }, [])
+
     return (
         <Container>
             <Row>
@@ -52,6 +70,22 @@ export default function EmployeeList() {
             <Row className="mb-3">
                 <Col>
                     <Button variant="primary" onClick={() => addEmployee()}>Add Employee</Button>
+                </Col>
+                <Col className="d-flex justify-content-end">
+                    <Form onSubmit={handleSearch}>
+                        <InputGroup>
+                        <Form.Control
+                            type="text"
+                            name="search"
+                            value={search}
+                            onChange={handleInputChange}
+                            placeholder="Search"
+                        />
+                        <Button variant="outline-secondary" type="submit">
+                            <FontAwesomeIcon icon={faMagnifyingGlass} />
+                        </Button>
+                        </InputGroup>
+                    </Form>
                 </Col>
             </Row>
             <Row>
@@ -62,6 +96,8 @@ export default function EmployeeList() {
                         <th>Employee First Name</th>
                         <th>Employee Last Name</th>
                         <th>Employee Email</th>
+                        <th>Employee Position</th>
+                        <th>Employee Department</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
@@ -71,6 +107,8 @@ export default function EmployeeList() {
                             <td>{employee.first_name}</td>
                             <td>{employee.last_name}</td>
                             <td>{employee.email}</td>
+                            <td>{employee.department}</td>
+                            <td>{employee.position}</td>
                             <td>
                                 <Stack direction="horizontal" gap={2}>
                                     <Button variant="info" onClick={ e => viewEmployee(employee._id)}>View</Button>

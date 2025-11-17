@@ -10,6 +10,15 @@ const EmployeeAPI = {
             throw new Error('Error fetching employees: ' + error.message);
         }
     },
+    fetchFilteredEmployees: async(search) => {
+        try {
+            const response = await axiosInstance.get('/employees?q=' + search);
+            if (response.status === 200) return response.data;
+            else throw new Error(response.data.message);
+        } catch (error) {
+            throw new Error('Error fetching employees: ' + error.message);
+        }
+    },
     fetchEmployeeById: async(employeeId) => {
         try {
             const response = await axiosInstance.get(`/employees/${employeeId}`);
