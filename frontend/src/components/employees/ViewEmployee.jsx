@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import EmployeeAPI from '../../api/employees/EmployeeAPI';
+import {Card, Col, Container, Row} from "react-bootstrap";
+import Button from "react-bootstrap/Button";
 
 export default function ViewEmployee() {
+    const navigate = useNavigate();
     const { employeeId } = useParams();
     const [ employee, setEmployee ] = useState(null);
     const getEmployeeDetails = async (employeeId) => {
@@ -14,26 +17,42 @@ export default function ViewEmployee() {
         }
     }
 
+    const handleBack = () => {
+        navigate("/");
+    }
+
     useEffect(() => {
         getEmployeeDetails(employeeId);
     }, [employeeId]);
+
     return (
         <div>
-            <h2>View Employee Details</h2>
-            <p>Employee ID: {employeeId}</p>
-            {employee ? (
-                <div>
-                    <p>First Name: {employee.first_name}</p>
-                    <p>Last Name: {employee.last_name}</p>
-                    <p>Email: {employee.email}</p>
-                    <p>Position: {employee.position}</p>
-                    <p>Salary: {employee.salary}</p>
-                    <p>Date of Joining: {employee.date_of_joining}</p>
-                    <p>Department: {employee.department}</p>
-                </div>
-            ) : (
-                <p>Loading employee details...</p>
-            )}
+        {employee ? (
+
+        <Container className="mt-4">
+            <Row className="justify-content-center">
+                <Col md={6}>
+                    <Card className="shadow-sm">
+                        <Card.Header className="text-center fw-bold fs-4">
+                            Employee Details
+                        </Card.Header>
+                        <Card.Body className="p-4">
+                            <p>Employee ID: {employeeId}</p>
+                            <p>First Name: {employee.first_name}</p>
+                            <p>Last Name: {employee.last_name}</p>
+                            <p>Email: {employee.email}</p>
+                            <p>Position: {employee.position}</p>
+                            <p>Salary: {employee.salary}</p>
+                            <p>Date of Joining: {employee.date_of_joining}</p>
+                            <p>Department: {employee.department}</p>
+                            <Button variant="secondary" onClick={() => handleBack()}>Back</Button>
+                        </Card.Body>
+                    </Card>
+                </Col>
+            </Row>
+        </Container> ) : (
+            <p>Loading employee details...</p>
+        )}
         </div>
     );
 }
