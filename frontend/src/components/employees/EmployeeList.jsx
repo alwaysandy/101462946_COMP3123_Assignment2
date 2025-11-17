@@ -63,15 +63,16 @@ export default function EmployeeList() {
     }, [])
 
     return (
-        <Container>
+        <Container fluid>
             <Row>
                 <h1 className="text-md-center">Employees List</h1>
             </Row>
             <Row className="mb-3">
-                <Col>
+                <Col xs="auto">
                     <Button variant="primary" onClick={() => addEmployee()}>Add Employee</Button>
                 </Col>
-                <Col className="d-flex justify-content-end">
+                <Col></Col>
+                <Col xs="auto">
                     <Form onSubmit={handleSearch}>
                         <InputGroup>
                         <Form.Control
