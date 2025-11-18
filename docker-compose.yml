@@ -1,7 +1,7 @@
 services:
-  app:
+  backend:
     build: backend/.
-    container_name: 101462946_COMP3123_Assignment2
+    container_name: 101462946_COMP3123_Assignment2_Backend
     ports:
       - "3001:3001"
     environment:
@@ -12,9 +12,23 @@ services:
       - .:/usr/src/app
     networks:
       - backend
+  frontend:
+    build: frontend/.
+    container_name: 101462946_COMP3123_Assignment2_Frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:3001
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - backend
   mongo:
     image: mongo:7
-    container_name: mongo_db
+    container_name: 101462946_COMP3123_Assignment2_Mongo
     restart: always
     ports:
       - "27017:27017"
@@ -24,7 +38,7 @@ services:
       - backend
   mongo-express:
     image: mongo-express:1
-    container_name: mongo_express
+    container_name: 101462946_COMP3123_Assignment2_Mongo_Express
     restart: always
     ports:
       - "8081:8081"
