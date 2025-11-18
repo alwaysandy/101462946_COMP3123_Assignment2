@@ -63,7 +63,7 @@ export default function EmployeeList() {
     }, [])
 
     return (
-        <Container fluid>
+        <Container fluid className="mt-4">
             <Row>
                 <h1 className="text-md-center">Employees List</h1>
             </Row>
