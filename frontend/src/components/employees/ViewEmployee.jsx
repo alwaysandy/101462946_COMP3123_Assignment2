@@ -83,6 +83,7 @@ export default function ViewEmployee() {
                                     </Alert>
                                 )}
                                 <p>Employee ID: {employeeId}</p>
+                                <Button variant="secondary" onClick={() => handleBack()}>Back</Button>
                             </Card.Body>
                         </Card>
                     </Col>
