@@ -13,7 +13,7 @@ const INITIAL_USER = {
 export default function SignupUser() {
     const navigate = useNavigate();
     const [ user, setUser ] = useState(INITIAL_USER);
-    const [error, setError] = useState("");
+    const [errors, setErrors] = useState([]);
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setUser({
@@ -29,8 +29,9 @@ export default function SignupUser() {
                 navigate("/login");
             })
             .catch(err => {
-                console.error("Error signing up user!", err);
-                setError("Error signing up user!");
+                const errString = err.toString();
+                const errorsArray = errString.replace("Error: ", "").split(",").map(e => e.trim());
+                setErrors(errorsArray);
             })
     }
 
@@ -43,10 +44,12 @@ export default function SignupUser() {
                             Signup
                         </Card.Header>
                         <Card.Body className="p-4">
-                            {error && (
-                                <Alert variant="danger" onClose={() => setError("")} dismissible>
-                                    {error}
-                                </Alert>
+                            {errors.length > 0 && (
+                                    errors.map(error => (
+                                        <Alert variant="danger" onClose={() => setErrors([])} dismissible>
+                                            {error}
+                                        </Alert>
+                                    ))
                             )}
                             <Form onSubmit={handleSubmit}>
                                 <Form.Group className="mb-3" controlId="username">

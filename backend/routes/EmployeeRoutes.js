@@ -58,10 +58,9 @@ employeeRoutes.post('/', [
 ], async (req, res) => {
     const result = validationResult(req);
     if (!result.isEmpty()) {
-        return res.status(400).send({
-            status: false,
-            message: result.array().map(error => error.msg)
-        });
+        return res.status(400).send(
+            result.array().map(error => error.msg)
+        );
     }
 
     const employee = new employeeModel(req.body);
@@ -72,27 +71,27 @@ employeeRoutes.post('/', [
             employee_id: newEmployee._id,
         });
     } catch (err) {
-        return res.status(500).send({
-            message: err.message
-        });
+        return res.status(500).send(
+            err.message
+        );
     }
 });
 
 employeeRoutes.get('/:employeeId', mongoIdParamValidation(), async (req, res) => {
     const result = validationResult(req);
     if (!result.isEmpty()) {
-        return res.status(400).send({
-            message: result.array().map(error => error.msg)
-        });
+        return res.status(400).send(
+            result.array().map(error => error.msg)
+        );
     }
 
     try {
         const employee = await employeeModel.findById(req.params.employeeId)
         return res.send(employee);
     } catch (err) {
-        return res.status(500).send({
-            message: err.message
-        })
+        return res.status(500).send(
+            err.message
+        )
     }
 });
 
@@ -109,9 +108,9 @@ employeeRoutes.put('/:employeeId', [
 async (req, res) => {
     const result = validationResult(req);
     if (!result.isEmpty()) {
-        return res.status(400).send({
-            message: result.array().map(error => error.msg)
-        });
+        return res.status(400).send(
+            result.array().map(error => error.msg)
+        );
     }
 
     try {
@@ -132,9 +131,9 @@ employeeRoutes.delete('/',
     async (req, res) => {
     const result = validationResult(req);
     if (!result.isEmpty()) {
-        return res.status(400).send({
-            message: result.array().map(error => error.msg)
-        });
+        return res.status(400).send(
+            result.array().map(error => error.msg)
+        );
     }
 
     try {
@@ -143,9 +142,9 @@ employeeRoutes.delete('/',
             message: "Employee deleted successfully."
         });
     } catch (err) {
-        return res.status(500).send({
-            message: err.message
-        })
+        return res.status(500).send(
+            err.message
+        )
     }
 });
 

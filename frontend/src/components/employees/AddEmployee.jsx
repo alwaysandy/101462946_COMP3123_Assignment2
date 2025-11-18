@@ -17,7 +17,7 @@ const INITIAL_EMPLOYEE = {
 export default function AddEmployee() {
     const navigate = useNavigate();
     const [ employee, setEmployee ] = useState(INITIAL_EMPLOYEE);
-    const [ error, setError ] = useState("");
+    const [ errors, setErrors ] = useState([]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -43,14 +43,16 @@ export default function AddEmployee() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError("");
+        setErrors([]);
 
         try {
             await EmployeeAPI.addEmployee(employee);
             navigate("/");
         } catch (err) {
             console.error("Error creating employee!", err);
-            setError("Failed to create employee. Please try again.");
+            const errString = err.toString();
+            const errorsArray = errString.replace("Error: ", "").split(",").map(e => e.trim());
+            setErrors(errorsArray);
         }
     };
 
@@ -68,10 +70,12 @@ export default function AddEmployee() {
                         </Card.Header>
 
                         <Card.Body className="p-4">
-                            {error && (
-                                <Alert variant="danger" onClose={() => setError("")} dismissible>
-                                    {error}
-                                </Alert>
+                            {errors.length > 0 && (
+                                errors.map(error => (
+                                    <Alert variant="danger" onClose={() => setErrors([])} dismissible>
+                                        {error}
+                                    </Alert>
+                                ))
                             )}
 
                             <Form onSubmit={handleSubmit}>

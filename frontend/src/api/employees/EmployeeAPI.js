@@ -34,7 +34,11 @@ const EmployeeAPI = {
             if (response.status === 201) return response.data;
             else throw new Error(response.data.message);
         } catch (error) {
-            throw new Error('Error adding employee: ' + error.message);
+            if (error.response) {
+                throw new Error(error.response.data);
+            } else {
+                throw new Error("Server Error");
+            }
         }
     },
     updateEmployee: async(employeeId, employeeData) => {
@@ -43,7 +47,11 @@ const EmployeeAPI = {
             if (response.status === 200) return response.data;
             else throw new Error(response.data.message);
         } catch (error) {
-            throw new Error('Error updating employee: ' + error.message);
+            if (error.response) {
+                throw new Error(error.response.data);
+            } else {
+                throw new Error("Server Error");
+            }
         }
     },
     deleteEmployee: async(employeeId) => {

@@ -26,10 +26,9 @@ userRoutes.post('/signup', [
 ], async (req, res) => {
     const result = validationResult(req);
     if (!result.isEmpty()) {
-        return res.status(400).send({
-            status: false,
-            message: result.array().map(error => error.msg)
-        });
+        return res.status(400).send(
+            result.array().map(error => error.msg)
+        );
     }
 
     const user = new userModel(req.body);
@@ -40,10 +39,9 @@ userRoutes.post('/signup', [
             user_id: newUser._id
         });
     } catch (err) {
-        return res.status(500).send({
-            status: false,
-            message: err.message
-        });
+        return res.status(500).send(
+            err.message
+        );
     }
 });
 

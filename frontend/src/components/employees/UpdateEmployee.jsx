@@ -18,7 +18,7 @@ export default function UpdateEmployee() {
     const navigate = useNavigate();
     const { employeeId } = useParams();
     const [ employee, setEmployee ] = useState(INITIAL_EMPLOYEE);
-    const [ error, setError ] = useState("");
+    const [ errors, setErrors ] = useState([]);
     const getEmployeeDetails = async (employeeId) => {
         try {
             const employeeDetails = await EmployeeAPI.fetchEmployeeById(employeeId);
@@ -30,7 +30,7 @@ export default function UpdateEmployee() {
             });
         } catch (error) {
             console.error("Failed to fetch employee details:", error);
-            setError("Failed to fetch employee details.");
+            setErrors(["Failed to fetch employee details."]);
         }
     }
 
@@ -62,15 +62,17 @@ export default function UpdateEmployee() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError("");
+        setErrors([]);
 
         await EmployeeAPI.updateEmployee(employeeId, employee)
             .then(res => {
                 navigate("/");
             })
             .catch(err => {
-                alert("Failed to update employee: " + err);
-                setError("Failed to update employee. Please try again.");
+                console.error("Failed to update employee: " + err);
+                const errString = err.toString();
+                const errorsArray = errString.replace("Error: ", "").split(",").map(e => e.trim());
+                setErrors(errorsArray);
             })
     }
 
@@ -88,10 +90,12 @@ export default function UpdateEmployee() {
                         </Card.Header>
 
                         <Card.Body className="p-4">
-                            {error && (
-                                <Alert variant="danger" onClose={() => setError("")} dismissible>
-                                    {error}
-                                </Alert>
+                            {errors.length > 0 && (
+                                errors.map(error => (
+                                    <Alert variant="danger" onClose={() => setErrors([])} dismissible>
+                                        {error}
+                                    </Alert>
+                                ))
                             )}
 
                             <Form onSubmit={handleSubmit}>
