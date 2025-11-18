@@ -51,7 +51,7 @@ export default function LoginUser() {
                             )}
                             <Form className="mb-3" onSubmit={handleSubmit}>
                                 <Form.Group className="mb-3" controlId="username">
-                                    <Form.Label>Username: </Form.Label>
+                                    <Form.Label>Username</Form.Label>
                                     <Form.Control
                                         type="text"
                                         name="username"

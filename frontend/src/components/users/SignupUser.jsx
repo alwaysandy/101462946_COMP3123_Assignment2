@@ -50,7 +50,7 @@ export default function SignupUser() {
                             )}
                             <Form onSubmit={handleSubmit}>
                                 <Form.Group className="mb-3" controlId="username">
-                                    <Form.Label>Username: </Form.Label>
+                                    <Form.Label>Username</Form.Label>
                                     <Form.Control
                                         type="text"
                                         name="username"
@@ -60,7 +60,7 @@ export default function SignupUser() {
                                     />
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="email">
-                                    <Form.Label>Email: </Form.Label>
+                                    <Form.Label>Email</Form.Label>
                                     <Form.Control
                                         type="email"
                                         name="email"

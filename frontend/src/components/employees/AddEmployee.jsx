@@ -60,7 +60,7 @@ export default function AddEmployee() {
                             )}
 
                             <Form onSubmit={handleSubmit}>
-                                <Form.Group className="mb-3">
+                                <Form.Group className="mb-3" controlId="first_name">
                                     <Form.Label>First Name</Form.Label>
                                     <Form.Control
                                         type="text"
@@ -72,7 +72,7 @@ export default function AddEmployee() {
                                     />
                                 </Form.Group>
 
-                                <Form.Group className="mb-3">
+                                <Form.Group className="mb-3" controlId="last_name">
                                     <Form.Label>Last Name</Form.Label>
                                     <Form.Control
                                         type="text"
@@ -84,7 +84,7 @@ export default function AddEmployee() {
                                     />
                                 </Form.Group>
 
-                                <Form.Group className="mb-3">
+                                <Form.Group className="mb-3" controlId="email">
                                     <Form.Label>Email</Form.Label>
                                     <Form.Control
                                         type="email"
@@ -96,7 +96,7 @@ export default function AddEmployee() {
                                     />
                                 </Form.Group>
 
-                                <Form.Group className="mb-3">
+                                <Form.Group className="mb-3" controlId="position">
                                     <Form.Label>Position</Form.Label>
                                     <Form.Control
                                         type="text"
@@ -108,7 +108,7 @@ export default function AddEmployee() {
                                     />
                                 </Form.Group>
 
-                                <Form.Group className="mb-3">
+                                <Form.Group className="mb-3" controlId="salary">
                                     <Form.Label>Salary</Form.Label>
                                     <Form.Control
                                         type="number"
@@ -121,7 +121,7 @@ export default function AddEmployee() {
                                     />
                                 </Form.Group>
 
-                                <Form.Group className="mb-3">
+                                <Form.Group className="mb-3" controlId="date_of_joining">
                                     <Form.Label>Date of Joining</Form.Label>
                                     <Form.Control
                                         type="date"
@@ -132,7 +132,7 @@ export default function AddEmployee() {
                                     />
                                 </Form.Group>
 
-                                <Form.Group className="mb-3">
+                                <Form.Group className="mb-3" controlId="department">
                                     <Form.Label>Department</Form.Label>
                                     <Form.Control
                                         type="text"
