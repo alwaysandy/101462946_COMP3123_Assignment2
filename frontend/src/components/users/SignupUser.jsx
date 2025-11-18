@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import UserAPI from "../../api/users/UserAPI";
+import {Alert, Card, Col, Container, Form, Row} from "react-bootstrap";
+import Button from "react-bootstrap/Button";
+import {useNavigate} from "react-router-dom";
 
 const INITIAL_USER = {
     username: '',
@@ -8,7 +11,9 @@ const INITIAL_USER = {
 }
 
 export default function SignupUser() {
+    const navigate = useNavigate();
     const [ user, setUser ] = useState(INITIAL_USER);
+    const [error, setError] = useState("");
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setUser({
@@ -21,31 +26,66 @@ export default function SignupUser() {
         e.preventDefault();
         UserAPI.signupUser(user)
             .then(res => {
-                setUser(INITIAL_USER);
+                navigate("/login");
             })
             .catch(err => {
                 console.error("Error signing up user!", err);
+                setError("Error signing up user!");
             })
     }
 
     return (
-        <div>
-            <h2>Signup</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Username: </label>
-                    <input type="text" name="username" value={user.username} onChange={handleInputChange}/>
-                </div>
-                <div>
-                    <label>Email: </label>
-                    <input type="text" name="email" value={user.email} onChange={handleInputChange}/>
-                </div>
-                <div>
-                    <label>Password: </label>
-                    <input type="password" name="password" value={user.password} onChange={handleInputChange}/>
-                </div>
-                <button type="submit">Signup</button>
-            </form>
-        </div>
+        <Container className="mt-4">
+            <Row className="justify-content-center">
+                <Col md={6}>
+                    <Card className="shadow-sm">
+                        <Card.Header className="text-center fw-bold fs-4">
+                            Signup
+                        </Card.Header>
+                        <Card.Body className="p-4">
+                            {error && (
+                                <Alert variant="danger" onClose={() => setError("")} dismissible>
+                                    {error}
+                                </Alert>
+                            )}
+                            <Form onSubmit={handleSubmit}>
+                                <Form.Group className="mb-3" controlId="username">
+                                    <Form.Label>Username: </Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        name="username"
+                                        value={user.username}
+                                        onChange={handleInputChange}
+                                        required
+                                    />
+                                </Form.Group>
+                                <Form.Group className="mb-3" controlId="email">
+                                    <Form.Label>Email: </Form.Label>
+                                    <Form.Control
+                                        type="email"
+                                        name="email"
+                                        value={user.email}
+                                        onChange={handleInputChange}
+                                        required
+                                    />
+                                </Form.Group>
+                                <Form.Group className="mb-3" controlId="password">
+                                    <Form.Label>Password</Form.Label>
+                                    <Form.Control
+                                        type="password"
+                                        name="password"
+                                        value={user.password}
+                                        onChange={handleInputChange}
+                                        required
+                                    />
+                                </Form.Group>
+                                <Button variant="primary" type="submit">Signup</Button>
+                                <Button className="mx-2" variant="secondary" onClick={() => navigate("/login")}>Cancel</Button>
+                            </Form>
+                        </Card.Body>
+                    </Card>
+                </Col>
+            </Row>
+        </Container>
     );
 }
