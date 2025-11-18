@@ -5,25 +5,42 @@ import AddEmployee from "./components/employees/AddEmployee";
 import ViewEmployee from "./components/employees/ViewEmployee";
 import UpdateEmployee from "./components/employees/UpdateEmployee";
 import SignupUser from "./components/users/SignupUser";
+import NavBar from "./components/NavBar";
 import LoginUser from "./components/users/LoginUser";
+import {useAuth, AuthProvider} from "./hooks/useAuth";
+import {ProtectedRoute} from "./components/ProtectedRoute";
 
 function App() {
   return (
     <div>
       <BrowserRouter>
-        <h1>Employee Testing</h1>
-          <nav>
-              <NavLink to="/">Employees</NavLink>
-              <NavLink to="/add-employee">Add Employee</NavLink>
-          </nav>
+      <AuthProvider>
+      <NavBar />
       <Routes>
-        <Route path="/" element={<EmployeeList />} />
-        <Route path="/add-employee" element={<AddEmployee />} />
-        <Route path="/view-employee/:employeeId" element={<ViewEmployee />} />
-        <Route path="/update-employee/:employeeId" element={<UpdateEmployee />} />
+        <Route path="/" element={
+            <ProtectedRoute>
+                <EmployeeList />
+            </ProtectedRoute>
+        } />
+        <Route path="/add-employee" element={
+            <ProtectedRoute>
+                <AddEmployee />
+            </ProtectedRoute>
+        } />
+        <Route path="/view-employee/:employeeId" element={
+            <ProtectedRoute>
+                <ViewEmployee />
+            </ProtectedRoute>
+        } />
+        <Route path="/update-employee/:employeeId" element={
+            <ProtectedRoute>
+                <UpdateEmployee />
+            </ProtectedRoute>
+        } />
         <Route path="/signup" element={<SignupUser />} />
         <Route path="/login" element={<LoginUser />} />
       </Routes>
+          </AuthProvider>
       </BrowserRouter>
     </div>
   );

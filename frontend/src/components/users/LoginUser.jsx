@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import UserAPI from "../../api/users/UserAPI";
+import { useAuth } from "../../hooks/useAuth";
 
 const INITIAL_USER = {
     username: '',
@@ -7,6 +8,7 @@ const INITIAL_USER = {
 }
 
 export default function LoginUser() {
+    const { login } = useAuth();
     const [ user, setUser ] = useState(INITIAL_USER);
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -16,14 +18,15 @@ export default function LoginUser() {
         });
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        UserAPI.loginUser(user)
-            .then(res => {
+        await UserAPI.loginUser(user)
+            .then(async res => {
+                await login(res);
                 setUser(INITIAL_USER);
             })
             .catch(err => {
-                console.error("Error signing up user!", err);
+                console.error("Error logging in user!", err);
             })
     }
 

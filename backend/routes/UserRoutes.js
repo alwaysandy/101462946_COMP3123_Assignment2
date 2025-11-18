@@ -1,6 +1,7 @@
 const userModel = require("../models/UsersModel");
 const express = require('express');
 const {body, validationResult} = require('express-validator');
+const jwt = require('jsonwebtoken');
 const userRoutes = express.Router();
 
 userRoutes.post('/signup', [
@@ -56,7 +57,7 @@ userRoutes.post('/login', [
 ], async (req, res) => {
     const result = validationResult(req);
     if (!result.isEmpty()) {
-        return res.status(400).send({
+        return res.status(401).send({
             status: false,
             message: "Invalid username or password"
         });
@@ -66,15 +67,14 @@ userRoutes.post('/login', [
         const user = await userModel.findOne({username: req.body.username});
         const isMatch = await user.comparePassword(req.body.password);
         if (!isMatch) {
-            return res.status(400).send({
+            return res.status(401).send({
                 status: false,
                 message: "Invalid username or password"
             });
         }
 
-        return res.status(200).send({
-            message: "Login successful"
-        });
+        const token = jwt.sign({ userId: user._id }, 'supersecret', { expiresIn: '1h' });
+        return res.status(201).send(token);
     } catch (err) {
         return res.status(500).send({
             status: false,
