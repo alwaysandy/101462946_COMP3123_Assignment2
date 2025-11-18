@@ -10,7 +10,8 @@ const INITIAL_EMPLOYEE = {
     position: '',
     salary: 0,
     date_of_joining: '',
-    department: ''
+    department: '',
+    profile_picture: '',
 }
 
 export default function UpdateEmployee() {
@@ -39,6 +40,20 @@ export default function UpdateEmployee() {
             ...employee,
             [name]: value
         });
+    }
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setEmployee({
+                    ...employee,
+                    profile_picture: reader.result,
+                });
+            }
+            reader.readAsDataURL(file);
+        }
     }
 
     useEffect(() => {
@@ -161,6 +176,16 @@ export default function UpdateEmployee() {
                                         onChange={handleInputChange}
                                         placeholder="Enter department"
                                         required
+                                    />
+                                </Form.Group>
+
+                                <Form.Group className="mb-3" controlId="profile_picture">
+                                    <Form.Label>Profile Picture</Form.Label>
+                                    <Form.Control
+                                        type="file"
+                                        accept="image/*"
+                                        name="profile_picture"
+                                        onChange={handleImageChange}
                                     />
                                 </Form.Group>
 

@@ -3,6 +3,7 @@ import {useNavigate, useParams} from 'react-router-dom';
 import EmployeeAPI from '../../api/employees/EmployeeAPI';
 import {Alert, Card, Col, Container, Row} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
+import placeholder from "../../assets/Portrait_Placeholder.png"
 
 export default function ViewEmployee() {
     const navigate = useNavigate();
@@ -38,6 +39,21 @@ export default function ViewEmployee() {
                             Employee Details
                         </Card.Header>
                         <Card.Body className="p-4">
+                            <div className="text-center mb-4">
+                                <img
+                                    src={ employee.profile_picture ? (
+                                        employee.profile_picture
+                                    ): placeholder }
+                                    alt={`${employee.first_name} ${employee.last_name}`}
+                                    style={{
+                                        width: "120px",
+                                        height: "120px",
+                                        objectFit: "cover",
+                                        borderRadius: "50%",
+                                        border: "3px solid #dee2e6"
+                                    }}
+                                />
+                            </div>
                             <p>Employee ID: {employeeId}</p>
                             <p>First Name: {employee.first_name}</p>
                             <p>Last Name: {employee.last_name}</p>
